@@ -1,0 +1,603 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Apply for {{ job.title }} | Jobs Portal</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f4f7fb;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        /* ================= NAVBAR ================= */
+
+        nav {
+            background: white;
+            padding: 18px 6%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #0d6efd;
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 25px;
+            align-items: center;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #444;
+            font-weight: 500;
+            transition: 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: #0d6efd;
+        }
+
+        .login-btn {
+            background: #0d6efd;
+            color: white !important;
+            padding: 9px 18px;
+            border-radius: 6px;
+        }
+
+        .login-btn:hover {
+            background: #084298;
+        }
+
+        /* ================= PAGE HEADER ================= */
+
+        .page-header {
+            background: linear-gradient(135deg, #0d6efd, #084298);
+            color: white;
+            text-align: center;
+            padding: 55px 20px;
+        }
+
+        .page-header h1 {
+            font-size: 38px;
+            margin-bottom: 10px;
+        }
+
+        .page-header p {
+            font-size: 17px;
+            opacity: 0.95;
+        }
+
+        /* ================= MAIN ================= */
+
+        .main-container {
+            width: 92%;
+            max-width: 850px;
+            margin: 45px auto;
+        }
+
+        /* ================= JOB CARD ================= */
+
+        .job-summary {
+            background: white;
+            padding: 25px 30px;
+            border-radius: 12px;
+            margin-bottom: 25px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.07);
+            border-left: 5px solid #0d6efd;
+        }
+
+        .job-summary h2 {
+            color: #222;
+            margin-bottom: 10px;
+            font-size: 25px;
+        }
+
+        .job-summary p {
+            color: #666;
+            margin: 5px 0;
+        }
+
+        .job-summary strong {
+            color: #333;
+        }
+
+        /* ================= FORM CARD ================= */
+
+        .form-card {
+            background: white;
+            padding: 35px;
+            border-radius: 12px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.07);
+        }
+
+        .form-card h2 {
+            font-size: 25px;
+            margin-bottom: 8px;
+            color: #222;
+        }
+
+        .form-description {
+            color: #777;
+            margin-bottom: 30px;
+        }
+
+        /* ================= FORM ================= */
+
+        .form-group {
+            margin-bottom: 23px;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 8px;
+            color: #333;
+        }
+
+        input,
+        textarea,
+        select {
+            width: 100%;
+            padding: 13px 15px;
+            border: 1px solid #d5dbe3;
+            border-radius: 7px;
+            font-size: 15px;
+            font-family: Arial, Helvetica, sans-serif;
+            background: #fff;
+            transition: 0.3s;
+        }
+
+        input:focus,
+        textarea:focus,
+        select:focus {
+            outline: none;
+            border-color: #0d6efd;
+            box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.10);
+        }
+
+        textarea {
+            min-height: 150px;
+            resize: vertical;
+        }
+
+        input[type="file"] {
+            padding: 10px;
+            background: #f8f9fa;
+            cursor: pointer;
+        }
+
+        .help-text {
+            display: block;
+            margin-top: 7px;
+            color: #777;
+            font-size: 13px;
+        }
+
+        /* ================= ERRORS ================= */
+
+        .errorlist {
+            color: #dc3545;
+            margin: 5px 0 8px;
+            padding-left: 20px;
+            font-size: 14px;
+        }
+
+        .non-field-errors {
+            background: #fff0f0;
+            border: 1px solid #f5c2c7;
+            padding: 12px 15px;
+            border-radius: 7px;
+            margin-bottom: 20px;
+        }
+
+        /* ================= BUTTONS ================= */
+
+        .button-area {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+
+        .submit-btn {
+            border: none;
+            padding: 13px 28px;
+            background: #0d6efd;
+            color: white;
+            border-radius: 7px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .submit-btn:hover {
+            background: #084298;
+            transform: translateY(-1px);
+        }
+
+        .back-btn {
+            display: inline-block;
+            padding: 12px 22px;
+            color: #0d6efd;
+            border: 1px solid #0d6efd;
+            border-radius: 7px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+
+        .back-btn:hover {
+            background: #0d6efd;
+            color: white;
+        }
+
+        /* ================= FOOTER ================= */
+
+        footer {
+            background: #111827;
+            color: #d1d5db;
+            text-align: center;
+            padding: 25px 20px;
+            margin-top: 60px;
+        }
+
+        footer p {
+            margin: 0;
+            font-size: 14px;
+        }
+
+        /* ================= MOBILE ================= */
+
+        @media (max-width: 768px) {
+
+            nav {
+                padding: 15px 5%;
+            }
+
+            .nav-links {
+                gap: 12px;
+            }
+
+            .nav-links a {
+                font-size: 14px;
+            }
+
+            .nav-links a:nth-child(3),
+            .nav-links a:nth-child(4) {
+                display: none;
+            }
+
+            .page-header {
+                padding: 45px 20px;
+            }
+
+            .page-header h1 {
+                font-size: 30px;
+            }
+
+            .page-header p {
+                font-size: 15px;
+            }
+
+            .main-container {
+                width: 94%;
+                margin: 30px auto;
+            }
+
+            .job-summary,
+            .form-card {
+                padding: 25px 20px;
+            }
+
+            .job-summary h2 {
+                font-size: 22px;
+            }
+
+            .form-card h2 {
+                font-size: 22px;
+            }
+
+            .button-area {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .submit-btn,
+            .back-btn {
+                width: 100%;
+                text-align: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+
+            .logo {
+                font-size: 20px;
+            }
+
+            .nav-links {
+                gap: 8px;
+            }
+
+            .login-btn {
+                padding: 7px 12px;
+            }
+
+            .page-header h1 {
+                font-size: 26px;
+            }
+
+            .page-header p {
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- ================= NAVBAR ================= -->
+
+    <nav>
+
+        <a href="{% url 'home' %}" class="logo">
+            Jobs Portal
+        </a>
+
+        <div class="nav-links">
+
+            <a href="{% url 'home' %}">
+                Home
+            </a>
+
+            <a href="{% url 'home' %}">
+                Find Jobs
+            </a>
+
+            <a href="#">
+                About
+            </a>
+
+            <a href="#">
+                Contact
+            </a>
+
+            <a href="/admin/" class="login-btn">
+                Login
+            </a>
+
+        </div>
+
+    </nav>
+
+
+    <!-- ================= PAGE HEADER ================= -->
+
+    <section class="page-header">
+
+        <h1>Apply for a Job</h1>
+
+        <p>
+            Take the next step toward your career
+        </p>
+
+    </section>
+
+
+    <!-- ================= MAIN CONTENT ================= -->
+
+    <main class="main-container">
+
+
+        <!-- JOB SUMMARY -->
+
+        <div class="job-summary">
+
+            <h2>
+                {{ job.title }}
+            </h2>
+
+            <p>
+                <strong>Company:</strong>
+                {{ job.company }}
+            </p>
+
+            <p>
+                <strong>Location:</strong>
+                {{ job.location }}
+            </p>
+
+            <p>
+                <strong>Job Type:</strong>
+                {{ job.job_type }}
+            </p>
+
+        </div>
+
+
+        <!-- APPLICATION FORM -->
+
+        <div class="form-card">
+
+            <h2>
+                Application Form
+            </h2>
+
+            <p class="form-description">
+                Please complete the form below carefully.
+                Make sure the information you provide is correct.
+            </p>
+
+
+            <form method="POST" enctype="multipart/form-data">
+
+                {% csrf_token %}
+
+
+                <!-- NON FIELD ERRORS -->
+
+                {% if form.non_field_errors %}
+                    <div class="non-field-errors">
+                        {{ form.non_field_errors }}
+                    </div>
+                {% endif %}
+
+
+                <!-- FULL NAME -->
+
+                <div class="form-group">
+
+                    {{ form.full_name.errors }}
+
+                    <label for="{{ form.full_name.id_for_label }}">
+                        Full Name
+                    </label>
+
+                    {{ form.full_name }}
+
+                </div>
+
+
+                <!-- EMAIL -->
+
+                <div class="form-group">
+
+                    {{ form.email.errors }}
+
+                    <label for="{{ form.email.id_for_label }}">
+                        Email Address
+                    </label>
+
+                    {{ form.email }}
+
+                </div>
+
+
+                <!-- PHONE -->
+
+                <div class="form-group">
+
+                    {{ form.phone.errors }}
+
+                    <label for="{{ form.phone.id_for_label }}">
+                        Phone Number
+                    </label>
+
+                    {{ form.phone }}
+
+                </div>
+
+
+                <!-- ADDRESS -->
+
+                <div class="form-group">
+
+                    {{ form.address.errors }}
+
+                    <label for="{{ form.address.id_for_label }}">
+                        Address
+                    </label>
+
+                    {{ form.address }}
+
+                </div>
+
+
+                <!-- COVER LETTER -->
+
+                <div class="form-group">
+
+                    {{ form.cover_letter.errors }}
+
+                    <label for="{{ form.cover_letter.id_for_label }}">
+                        Cover Letter
+                    </label>
+
+                    {{ form.cover_letter }}
+
+                    <small class="help-text">
+                        Explain why you are suitable for this position.
+                    </small>
+
+                </div>
+
+
+                <!-- RESUME -->
+
+                <div class="form-group">
+
+                    {{ form.resume.errors }}
+
+                    <label for="{{ form.resume.id_for_label }}">
+                        Upload CV / Resume
+                    </label>
+
+                    {{ form.resume }}
+
+                    <small class="help-text">
+                        Please upload your CV or Resume.
+                    </small>
+
+                </div>
+
+
+                <!-- BUTTONS -->
+
+                <div class="button-area">
+
+                    <button type="submit" class="submit-btn">
+                        Submit Application
+                    </button>
+
+                    <a
+                        href="{% url 'job_detail' job.id %}"
+                        class="back-btn"
+                    >
+                        ← Back to Job Details
+                    </a>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </main>
+
+
+    <!-- ================= FOOTER ================= -->
+
+    <footer>
+
+        <p>
+            © 2026 Jobs Recruitment Portal. All Rights Reserved.
+        </p>
+
+    </footer>
+
+</body>
+</html>
